@@ -1,33 +1,20 @@
 import csv
 import os
-import sys
-from typing import List, Dict, Tuple
+from typing import List
 from models import Member, Contribution, Tracker
 
 DATA_DIR_NAME = "data"
 MEMBERS_FILE = "members.csv"
 CONTRIBS_FILE = "contributions.csv"
 
-def project_root() -> str:
-    """
-    Resolve the project root directory using os.path and sys for demonstration.
-    Falls back to current working directory if __file__ is unavailable.
-    """
-    # Show sys.path usage to reflect class material (read-only demonstration)
-    _ = sys.path  # Not printed; available for debugging if needed
-    try:
-        here = os.path.dirname(os.path.abspath(__file__))
-    except NameError:
-        here = os.getcwd()
-    return here
-
 def data_dir() -> str:
     """
     Ensure and return the absolute path to the data directory.
     """
-    root = project_root()
+    root = os.getcwd()
     d = os.path.join(root, DATA_DIR_NAME)
-    os.makedirs(d, exist_ok=True)
+    os.makedirs(d, exist_ok=True) # Create data directory if it doesn't exist, ignore if it already exists
+
     return d
 
 def members_path() -> str:
@@ -50,7 +37,7 @@ def load_tracker() -> Tracker:
     # Load members
     mpath = members_path()
     if os.path.exists(mpath):
-        with open(mpath, newline="", encoding="utf-8") as f:
+        with open(mpath, newline="", encoding="utf-8") as f: # r (read) is default mode
             reader = csv.DictReader(f)
             for row in reader:
                 name = row.get("name", "").strip()

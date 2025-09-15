@@ -25,7 +25,6 @@ class Contribution:
 class Tracker:
     """
     In-memory tracker for members and contributions with simple summaries.
-    Keeps data as lists/dicts to align with beginner course content.
     """
     def __init__(self) -> None:
         self.members: Dict[str, Member] = {}
@@ -38,8 +37,10 @@ class Tracker:
         Returns True if created, False if duplicate.
         """
         key = name.strip()
+        # remove empty names
         if not key:
             return False
+        # check/remove for duplicates
         if key in self.members:
             return False
         self.members[key] = Member(name=key, monthly_amount=monthly_amount)
