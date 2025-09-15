@@ -4,7 +4,7 @@ from models import Member, Contribution, Tracker
 import storage
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Sibling Contributions Tracker", layout="centered")
+st.set_page_config(page_title="Sibling Contributions Tracker", page_icon=":moneybag:", layout="centered")
 
 @st.cache_resource
 def _load_tracker_once() -> Tracker:
@@ -42,7 +42,7 @@ def page_members(t: Tracker) -> None:
     members = [{"name": m.name, "monthly_amount": m.monthly_amount} for m in t.all_members()]
     st.subheader("Current members")
     if members:
-        st.dataframe(members, use_container_width=True)
+        st.dataframe(members, width='stretch')
     else:
         st.info("No members yet.")
 
@@ -72,7 +72,7 @@ def page_contributions(t: Tracker) -> None:
     st.subheader("All contributions")
     rows = [{"member": c.member, "date": c.date, "amount": c.amount} for c in t.history()]
     if rows:
-        st.dataframe(rows, use_container_width=True)
+        st.dataframe(rows, width='stretch')
     else:
         st.info("No contributions yet.")
 
@@ -106,7 +106,7 @@ def page_reports(t: Tracker) -> None:
     st.subheader("Totals by member")
     if totals:
         table = [{"member": k, "total": v} for k, v in totals.items()]
-        st.dataframe(table, use_container_width=True)
+        st.dataframe(table, width='stretch')
         st.subheader("Visualization")
         render_totals_bar(t)
     else:
@@ -116,15 +116,23 @@ def main() -> None:
     """
     App entry point.
     """
-    st.title("Sibling Contributions Tracker")
+    st.title(":moneybag: Sibling Contributions Tracker")
     t = _load_tracker_once()
 
-    page = st.sidebar.radio("Navigate", ["Members", "Contributions", "Reports"])
-    if page == "Members":
+    # page = st.sidebar.radio("Navigate", ["Members", "Contributions", "Reports"])
+    # if page == "Members":
+    #     page_members(t)
+    # elif page == "Contributions":
+    #     page_contributions(t)
+    # else:
+    #     page_reports(t)
+
+    tab1, tab2, tab3 = st.tabs(["Members", "Contributions", "Reports"])
+    with tab1:
         page_members(t)
-    elif page == "Contributions":
+    with tab2:
         page_contributions(t)
-    else:
+    with tab3:
         page_reports(t)
 
 if __name__ == "__main__":

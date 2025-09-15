@@ -33,5 +33,5 @@ tracker/
 .DS_Store
 Thumbs.db
 
-# ---- Project notes ----
+# ---- Project data ----
 data/*.csv
