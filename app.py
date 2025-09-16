@@ -1,6 +1,5 @@
 import streamlit as st
-from typing import List, Dict
-from models import Member, Contribution, Tracker
+from models import Tracker
 import storage
 import matplotlib.pyplot as plt
 
